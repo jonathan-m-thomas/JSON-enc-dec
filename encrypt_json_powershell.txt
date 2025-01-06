@@ -1,0 +1,12 @@
+# paths for original and encrypted files
+$inputFile = "C:\dir\winget-439620-73a56ab8e593.json"
+$outputFile = "C:\dir\winget-439620-73a56ab8e593.json.enc"
+
+# read the content of the JSON file
+$content = Get-Content $inputFile -Raw
+
+# convert the content to a secure string and encrypt it
+$secureString = ConvertTo-SecureString $content -AsPlainText -Force
+$secureString | Export-CliXml -Path $outputFile
+
+Write-Host "Encryption successful! File saved as winget-439620-73a56ab8e593.json.enc"
