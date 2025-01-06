@@ -1,0 +1,17 @@
+# paths for encrypted and decrypted files
+$encryptedFile = "C:\dir\winget-439620-73a56ab8e593.json.enc"
+$outputFile = "C:\dir\winget-439620-73a56ab8e593.json"
+
+# import the encrypted secure string
+$secureString = Import-CliXml -Path $encryptedFile
+
+# convert back to plain text
+# note: this must be done on the same user profile as when it was encrypted
+$jsonContent = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto(
+    [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($secureString)
+)
+
+# save the decrypted content to a new file
+Set-Content $outputFile -Value $jsonContent
+
+Write-Host "Decryption successful! File saved as winget-439620-73a56ab8e593_decrypted.json"
